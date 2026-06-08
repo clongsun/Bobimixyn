@@ -6,20 +6,29 @@
     <title>Bobimixyn 藥物劑量計算機</title>
     <style>
         :root { --primary-color: #00796b; --res-color: #d32f2f; }
-        body { font-family: sans-serif; background-color: #f4f7f6; padding: 20px; display: flex; justify-content: center; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f7f6; padding: 20px; display: flex; justify-content: center; }
         .container { background-color: #ffffff; width: 100%; max-width: 500px; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         h1 { color: var(--primary-color); text-align: center; font-size: 22px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: 600; margin-bottom: 5px; }
         input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        
         .result-card { display: none; margin-top: 20px; padding: 15px; background: #fff; border: 2px solid var(--primary-color); border-radius: 8px; }
+        
         .res-row { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .label-type { font-weight: bold; color: #333; margin-bottom: 5px; }
-        
         .vial-num { font-size: 24px; font-weight: 800; color: var(--res-color); }
         .details { font-size: 15px; color: #555; }
-        .freq-label { font-weight: 800; color: #c0392b; margin-left: 5px; }
+        .freq-label { font-weight: 800; color: #c0392b; margin-left: 5px; font-size: 16px; }
+        
+        /* 新增：溫和的視覺過渡設計 */
+        .transition-arrow { 
+            text-align: center; 
+            color: #7f8c8d; 
+            font-size: 13.5px; 
+            margin: 0 0 15px 0; 
+            font-weight: 600; 
+            letter-spacing: 0.5px; 
+        }
         
         .notices { margin-top: 20px; font-size: 13px; line-height: 1.5; }
         .notice-box { padding: 10px; margin-bottom: 8px; border-radius: 6px; }
@@ -46,7 +55,10 @@
             <div class="label-type">起始劑量 (Loading Dose)</div>
             <div id="res-loading"></div>
         </div>
-        <div class="res-row">
+        
+        <div class="transition-arrow">↓ 給予起始劑量 12 小時後 ↓</div>
+
+        <div class="res-row" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
             <div class="label-type">維持劑量 (Maintenance Dose)</div>
             <div id="res-maintenance"></div>
         </div>
@@ -86,10 +98,8 @@
             else { load = fmt(4, 2000, 200); maint = fmt(2.4, 1200, 120); }
         }
         
-        // Q12H 已移至 vial 數與 KU/mg 之後，並加上明顯紅色標註
         document.getElementById('res-loading').innerHTML = load + " <br><small>建議輸注時間 > 2小時</small>";
         document.getElementById('res-maintenance').innerHTML = maint + " <span class=\"freq-label\">Q12H</span> <br><small>建議輸注時間 > 1小時</small>";
-        
         document.getElementById('results').style.display = 'block';
     }
 </script>
