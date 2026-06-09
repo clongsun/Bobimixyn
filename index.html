@@ -25,12 +25,12 @@
 
         .app-container {
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             background: #ffffff;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             overflow: hidden;
-            margin: 10px;
+            margin: 15px;
             display: flex;
             flex-direction: column;
         }
@@ -38,7 +38,7 @@
         .header {
             background: var(--primary);
             color: #fff;
-            padding: 10px 0;
+            padding: 12px 0;
             text-align: center;
             font-size: 18px;
             font-weight: bold;
@@ -46,23 +46,23 @@
         }
 
         .input-section {
-            padding: 12px;
+            padding: 15px;
             text-align: center;
             border-bottom: 1px solid #f1f5f9;
         }
 
         .input-section label {
             display: block;
-            font-size: 13px;
+            font-size: 14px;
             color: #64748b;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-weight: 600;
         }
 
         .weight-input {
-            width: 110px;
-            font-size: 26px;
-            padding: 2px;
+            width: 120px;
+            font-size: 28px;
+            padding: 4px;
             text-align: center;
             border: 2px solid #cbd5e1;
             border-radius: 8px;
@@ -76,97 +76,73 @@
             outline: none;
         }
 
-        /* 雙欄並排雙方案區塊 */
+        /* 緊湊區間結果區塊 */
         .result-section {
             display: none;
-            padding: 10px 10px 5px 10px;
+            padding: 12px 15px 5px 15px;
             background: #fff;
         }
 
-        .scheme-grid {
-            display: flex;
-            gap: 8px;
-        }
-
-        .scheme-card {
-            flex: 1;
+        .res-row {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 8px;
+            padding: 10px;
             text-align: center;
-            box-sizing: border-box;
         }
 
-        .scheme-title {
+        .res-title {
             font-size: 14px;
-            font-weight: 800;
-            color: #fff;
-            background: #475569;
-            padding: 3px 0;
-            border-radius: 4px;
-            margin-bottom: 8px;
-        }
-
-        .res-block {
-            margin: 4px 0;
-        }
-
-        .res-label {
-            font-size: 11px;
             font-weight: bold;
-            color: #64748b;
+            color: #475569;
+            margin-bottom: 2px;
         }
 
         .vial-num {
-            font-size: 21px;
+            font-size: 28px;
             font-weight: 900;
             color: var(--accent);
-            line-height: 1.1;
+            line-height: 1.2;
         }
 
         .q12h {
-            font-size: 12px;
-            font-weight: 800;
             color: var(--accent);
-            display: block;
-            margin-top: -2px;
+            font-size: 18px;
+            margin-left: 4px;
+            font-weight: 800;
         }
 
         .vial-detail {
-            font-size: 11px;
+            font-size: 13px;
             color: #64748b;
-            transform: scale(0.95);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .time-hint {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 600;
         }
 
         .arrow-divider {
             text-align: center;
             color: #94a3b8;
-            font-size: 10px;
-            margin: 4px 0;
+            font-size: 12px;
+            margin: 6px 0;
             font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
-        .global-time-hint {
-            text-align: center;
-            font-size: 11px;
-            color: var(--primary);
-            font-weight: 600;
-            margin-top: 6px;
-            background: #e6f2f0;
-            padding: 3px 0;
-            border-radius: 4px;
-        }
-
-        /* 完整保留原本色塊注意事項，微調字體適應螢幕 */
+        /* 色塊注意事項（完全保留原設定，微調間距） */
         .notices {
-            padding: 5px 10px 10px 10px;
+            padding: 5px 15px 15px 15px;
             background: #fff;
         }
 
         .notice-box {
-            padding: 6px 8px;
-            margin-bottom: 5px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
             border-radius: 6px;
             font-size: 11px;
             line-height: 1.4;
@@ -190,43 +166,23 @@
     </div>
 
     <div id="results" class="result-section">
-        <div class="scheme-grid">
-            <!-- 方案 A (原輕症數據) -->
-            <div class="scheme-card" style="border-top: 4px solid #00897b;">
-                <div class="scheme-title" style="background:#00897b;">方案 A</div>
-                <div class="res-block">
-                    <div class="res-label">起始劑量 (Loading)</div>
-                    <div class="vial-num" id="a-l-vial">0 vial</div>
-                    <div class="vial-detail" id="a-l-detail">(0 KU/0 mg)</div>
-                </div>
-                <div class="arrow-divider">↓ 12小時後 ↓</div>
-                <div class="res-block">
-                    <div class="res-label">維持劑量 (Maint.)</div>
-                    <div class="vial-num" id="a-m-vial">0 vial</div>
-                    <span class="q12h">Q12H</span>
-                    <div class="vial-detail" id="a-m-detail">(0 KU/0 mg)</div>
-                </div>
-            </div>
-
-            <!-- 方案 B (原重症數據) -->
-            <div class="scheme-card" style="border-top: 4px solid #00796b;">
-                <div class="scheme-title" style="background:#00796b;">方案 B</div>
-                <div class="res-block">
-                    <div class="res-label">起始劑量 (Loading)</div>
-                    <div class="vial-num" id="b-l-vial">0 vial</div>
-                    <div class="vial-detail" id="b-l-detail">(0 KU/0 mg)</div>
-                </div>
-                <div class="arrow-divider">↓ 12小時後 ↓</div>
-                <div class="res-block">
-                    <div class="res-label">維持劑量 (Maint.)</div>
-                    <div class="vial-num" id="b-m-vial">0 vial</div>
-                    <span class="q12h">Q12H</span>
-                    <div class="vial-detail" id="b-m-detail">(0 KU/0 mg)</div>
-                </div>
-            </div>
+        <!-- 起始劑量區間 -->
+        <div class="res-row">
+            <div class="res-title">起始劑量 (Loading Dose)</div>
+            <div class="vial-num" id="l-vial">0 ～ 0 vial</div>
+            <div class="vial-detail" id="l-detail">(0 ～ 0 KU / 0 ～ 0 mg)</div>
+            <div class="time-hint">建議輸注時間 > 2 小時</div>
         </div>
-        
-        <div class="global-time-hint">⏱ 輸注時間：起始劑量 > 2 小時 / 維持劑量 > 1 小時</div>
+
+        <div class="arrow-divider">↓ 給予起始劑量 12 小時後 ↓</div>
+
+        <!-- 維持劑量區間 -->
+        <div class="res-row">
+            <div class="res-title">維持劑量 (Maintenance Dose)</div>
+            <div class="vial-num"><span id="m-vial">0 ～ 0</span> vial <span class="q12h">Q12H</span></div>
+            <div class="vial-detail" id="m-detail">(0 ～ 0 KU / 0 ～ 0 mg)</div>
+            <div class="time-hint">建議輸注時間 > 1 小時</div>
+        </div>
     </div>
 
     <div class="notices">
@@ -254,53 +210,45 @@
 
         results.style.display = 'block';
 
-        // --- 方案 A 計算邏輯 (原輕症) ---
-        let al_v, al_ku, al_mg, am_v, am_ku, am_mg;
-        if (w < 50) {
-            al_v = 1.5; al_ku = 800; al_mg = 80; am_v = 1; am_ku = 500; am_mg = 50;
-        } else if (w < 60) {
-            al_v = 2; al_ku = 1000; al_mg = 100; am_v = 1.25; am_ku = 625; am_mg = 62.5;
-        } else if (w < 70) {
-            al_v = 2.5; al_ku = 1200; al_mg = 120; am_v = 1.5; am_ku = 750; am_mg = 75;
-        } else if (w < 80) {
-            al_v = 3; al_ku = 1400; al_mg = 140; am_v = 1.75; am_ku = 875; am_mg = 87.5;
-        } else {
-            al_v = 3.25; al_ku = 1600; al_mg = 160; am_v = 2; am_ku = 1000; am_mg = 100;
-        }
+        let l_v_range, l_ku_range, l_mg_range;
+        let m_v_range, m_ku_range, m_mg_range;
 
-        // --- 方案 B 計算邏輯 (原重症) ---
-        let bl_v, bl_ku, bl_mg, bm_v, bm_ku, bm_mg;
+        // 完美融合輕症至重症的交叉區間邏輯
         if (w < 45) {
-            bl_v = 2; bl_ku = 1000; bl_mg = 100; bm_v = 1.2; bm_ku = 600; bm_mg = 60;
+            l_v_range = "1.5 ～ 2"; l_ku_range = "800 ～ 1,000"; l_mg_range = "80 ～ 100";
+            m_v_range = "1 ～ 1.2"; m_ku_range = "500 ～ 600"; m_mg_range = "50 ～ 60";
         } else if (w < 50) {
-            bl_v = 2.25; bl_ku = 1125; bl_mg = 112.5; bm_v = 1.35; bm_ku = 675; bm_mg = 67.5;
+            l_v_range = "1.5 ～ 2.25"; l_ku_range = "800 ～ 1,125"; l_mg_range = "80 ～ 112.5";
+            m_v_range = "1 ～ 1.35"; m_ku_range = "500 ～ 675"; m_mg_range = "50 ～ 67.5";
         } else if (w < 55) {
-            bl_v = 2.5; bl_ku = 1250; bl_mg = 125; bm_v = 1.5; bm_ku = 750; bm_mg = 75;
+            l_v_range = "2 ～ 2.5"; l_ku_range = "1,000 ～ 1,250"; l_mg_range = "100 ～ 125";
+            m_v_range = "1.25 ～ 1.5"; m_ku_range = "625 ～ 750"; m_mg_range = "62.5 ～ 75";
         } else if (w < 60) {
-            bl_v = 2.75; bl_ku = 1375; bl_mg = 137.5; bm_v = 1.65; bm_ku = 825; bm_mg = 82.5;
+            l_v_range = "2 ～ 2.75"; l_ku_range = "1,000 ～ 1,375"; l_mg_range = "100 ～ 137.5";
+            m_v_range = "1.25 ～ 1.65"; m_ku_range = "625 ～ 825"; m_mg_range = "62.5 ～ 82.5";
         } else if (w < 65) {
-            bl_v = 3; bl_ku = 1500; bl_mg = 150; bm_v = 1.8; bm_ku = 900; bm_mg = 90;
+            l_v_range = "2.5 ～ 3"; l_ku_range = "1,200 ～ 1,500"; l_mg_range = "120 ～ 150";
+            m_v_range = "1.5 ～ 1.8"; m_ku_range = "750 ～ 900"; m_mg_range = "75 ～ 90";
         } else if (w < 70) {
-            bl_v = 3.25; bl_ku = 1625; bl_mg = 162.5; bm_v = 1.95; bm_ku = 975; bm_mg = 97.5;
+            l_v_range = "2.5 ～ 3.25"; l_ku_range = "1,200 ～ 1,625"; l_mg_range = "120 ～ 162.5";
+            m_v_range = "1.5 ～ 1.95"; m_ku_range = "750 ～ 975"; m_mg_range = "75 ～ 97.5";
         } else if (w < 75) {
-            bl_v = 3.5; bl_ku = 1750; bl_mg = 175; bm_v = 2.1; bm_ku = 1050; bm_mg = 105;
+            l_v_range = "3 ～ 3.5"; l_ku_range = "1,400 ～ 1,750"; l_mg_range = "140 ～ 175";
+            m_v_range = "1.75 ～ 2.1"; m_ku_range = "875 ～ 1,050"; m_mg_range = "87.5 ～ 105";
         } else if (w < 80) {
-            bl_v = 3.75; bl_ku = 1875; bl_mg = 187.5; bm_v = 2.25; bm_ku = 1125; bm_mg = 112.5;
+            l_v_range = "3 ～ 3.75"; l_ku_range = "1,400 ～ 1,875"; l_mg_range = "140 ～ 187.5";
+            m_v_range = "1.75 ～ 2.25"; m_ku_range = "875 ～ 1,125"; m_mg_range = "87.5 ～ 112.5";
         } else {
-            bl_v = 4; bl_ku = 2000; bl_mg = 200; bm_v = 2.4; bm_ku = 1200; bm_mg = 120;
+            l_v_range = "3.25 ～ 4"; l_ku_range = "1,600 ～ 2,000"; l_mg_range = "160 ～ 200";
+            m_v_range = "2 ～ 2.4"; m_ku_range = "1,000 ～ 1,200"; m_mg_range = "100 ～ 120";
         }
 
-        // 渲染方案 A
-        document.getElementById('a-l-vial').innerText = al_v + " vial";
-        document.getElementById('a-l-detail').innerText = `(${al_ku}KU / ${al_mg}mg)`;
-        document.getElementById('a-m-vial').innerText = am_v + " vial";
-        document.getElementById('a-m-detail').innerText = `(${am_ku}KU / ${am_mg}mg)`;
-
-        // 渲染方案 B
-        document.getElementById('b-l-vial').innerText = bl_v + " vial";
-        document.getElementById('b-l-detail').innerText = `(${bl_ku}KU / ${bl_mg}mg)`;
-        document.getElementById('b-m-vial').innerText = bm_v + " vial";
-        document.getElementById('b-m-detail').innerText = `(${bm_ku}KU / ${bm_mg}mg)`;
+        // 渲染結果區間
+        document.getElementById('l-vial').innerText = l_v_range + " vial";
+        document.getElementById('l-detail').innerText = `(${l_ku_range} KU / ${l_mg_range} mg)`;
+        
+        document.getElementById('m-vial').innerText = m_v_range;
+        document.getElementById('m-detail').innerText = `(${m_ku_range} KU / ${m_mg_range} mg)`;
     }
 </script>
 
