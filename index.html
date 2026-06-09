@@ -2,106 +2,307 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bobimixyn 藥物劑量計算機</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bobimixyn 劑量計算工具</title>
     <style>
-        :root { --primary-color: #00796b; --res-color: #d32f2f; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f7f6; padding: 20px; display: flex; justify-content: center; }
-        .container { background-color: #ffffff; width: 100%; max-width: 500px; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { color: var(--primary-color); text-align: center; font-size: 22px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: 600; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        .result-card { display: none; margin-top: 20px; padding: 15px; background: #fff; border: 2px solid var(--primary-color); border-radius: 8px; }
-        
-        .res-row { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .label-type { font-weight: bold; color: #333; margin-bottom: 5px; }
-        .vial-num { font-size: 24px; font-weight: 800; color: var(--res-color); }
-        .details { font-size: 15px; color: #555; }
-        .freq-label { font-weight: 800; color: #c0392b; margin-left: 5px; font-size: 16px; }
-        
-        /* 新增：溫和的視覺過渡設計 */
-        .transition-arrow { 
-            text-align: center; 
-            color: #7f8c8d; 
-            font-size: 13.5px; 
-            margin: 0 0 15px 0; 
-            font-weight: 600; 
-            letter-spacing: 0.5px; 
+        :root {
+            --primary: #00796b;
+            --bg: #e2e8f0;
+            --text-main: #2c3e50;
+            --accent: #d32f2f;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--primary);
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .input-section {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .input-section label {
+            display: block;
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .weight-input {
+            width: 110px;
+            font-size: 26px;
+            padding: 2px;
+            text-align: center;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            color: var(--primary);
+            font-weight: bold;
+            box-sizing: border-box;
+        }
+
+        .weight-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* 雙欄並排雙方案區塊 */
+        .result-section {
+            display: none;
+            padding: 10px 10px 5px 10px;
+            background: #fff;
+        }
+
+        .scheme-grid {
+            display: flex;
+            gap: 8px;
+        }
+
+        .scheme-card {
+            flex: 1;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .scheme-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            background: #475569;
+            padding: 3px 0;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .res-block {
+            margin: 4px 0;
+        }
+
+        .res-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #64748b;
+        }
+
+        .vial-num {
+            font-size: 21px;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1.1;
+        }
+
+        .q12h {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+            margin-top: -2px;
+        }
+
+        .vial-detail {
+            font-size: 11px;
+            color: #64748b;
+            transform: scale(0.95);
+        }
+
+        .arrow-divider {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 10px;
+            margin: 4px 0;
+            font-weight: bold;
+        }
+
+        .global-time-hint {
+            text-align: center;
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 6px;
+            background: #e6f2f0;
+            padding: 3px 0;
+            border-radius: 4px;
+        }
+
+        /* 完整保留原本色塊注意事項，微調字體適應螢幕 */
+        .notices {
+            padding: 5px 10px 10px 10px;
+            background: #fff;
+        }
+
+        .notice-box {
+            padding: 6px 8px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            font-size: 11px;
+            line-height: 1.4;
         }
         
-        .notices { margin-top: 20px; font-size: 13px; line-height: 1.5; }
-        .notice-box { padding: 10px; margin-bottom: 8px; border-radius: 6px; }
+        .notice-box:last-child {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Bobimixyn 劑量計算機</h1>
-    <div class="form-group">
-        <label>病患體重 (kg)</label>
-        <input type="number" id="weight" placeholder="請輸入體重..." oninput="calculate()">
-    </div>
-    <div class="form-group">
-        <label>病患狀況</label>
-        <select id="condition" onchange="calculate()">
-            <option value="mild">輕症 (經驗性使用)</option>
-            <option value="severe">重症病患</option>
-        </select>
+<div class="app-container">
+    <div class="header">
+        Bobimixyn 劑量計算工具
     </div>
 
-    <div id="results" class="result-card">
-        <div class="res-row">
-            <div class="label-type">起始劑量 (Loading Dose)</div>
-            <div id="res-loading"></div>
+    <div class="input-section">
+        <label for="weight">請輸入病患實際體重 (kg)</label>
+        <input type="number" id="weight" class="weight-input" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div id="results" class="result-section">
+        <div class="scheme-grid">
+            <!-- 方案 A (原輕症數據) -->
+            <div class="scheme-card" style="border-top: 4px solid #00897b;">
+                <div class="scheme-title" style="background:#00897b;">方案 A</div>
+                <div class="res-block">
+                    <div class="res-label">起始劑量 (Loading)</div>
+                    <div class="vial-num" id="a-l-vial">0 vial</div>
+                    <div class="vial-detail" id="a-l-detail">(0 KU/0 mg)</div>
+                </div>
+                <div class="arrow-divider">↓ 12小時後 ↓</div>
+                <div class="res-block">
+                    <div class="res-label">維持劑量 (Maint.)</div>
+                    <div class="vial-num" id="a-m-vial">0 vial</div>
+                    <span class="q12h">Q12H</span>
+                    <div class="vial-detail" id="a-m-detail">(0 KU/0 mg)</div>
+                </div>
+            </div>
+
+            <!-- 方案 B (原重症數據) -->
+            <div class="scheme-card" style="border-top: 4px solid #00796b;">
+                <div class="scheme-title" style="background:#00796b;">方案 B</div>
+                <div class="res-block">
+                    <div class="res-label">起始劑量 (Loading)</div>
+                    <div class="vial-num" id="b-l-vial">0 vial</div>
+                    <div class="vial-detail" id="b-l-detail">(0 KU/0 mg)</div>
+                </div>
+                <div class="arrow-divider">↓ 12小時後 ↓</div>
+                <div class="res-block">
+                    <div class="res-label">維持劑量 (Maint.)</div>
+                    <div class="vial-num" id="b-m-vial">0 vial</div>
+                    <span class="q12h">Q12H</span>
+                    <div class="vial-detail" id="b-m-detail">(0 KU/0 mg)</div>
+                </div>
+            </div>
         </div>
         
-        <div class="transition-arrow">↓ 給予起始劑量 12 小時後 ↓</div>
-
-        <div class="res-row" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
-            <div class="label-type">維持劑量 (Maintenance Dose)</div>
-            <div id="res-maintenance"></div>
-        </div>
+        <div class="global-time-hint">⏱ 輸注時間：起始劑量 > 2 小時 / 維持劑量 > 1 小時</div>
     </div>
 
     <div class="notices">
-        <div class="notice-box" style="background:#f8d7da; color:#721c24; font-weight:bold;">【免責聲明】非官方建立，僅供劑量參考，請務必依照醫師及藥師建議使用。</div>
-        <div class="notice-box" style="background:#fff3cd; color:#856404;">【輸注液量建議】每 vial > 100ml，限水病患至少每 vial > 50ml。</div>
-        <div class="notice-box" style="background:#fff3cd; color:#856404;">【特殊族群】肝腎功能不全、使用 ECMO、HD、CRRT、CAPD 患者，不需調整劑量。</div>
+        <div class="notice-box" style="background:#f8d7da; color:#721c24; font-weight:bold;">
+            【免責聲明】非官方建立，僅供劑量參考，請務必依照醫師及藥師建議使用。
+        </div>
+        <div class="notice-box" style="background:#fff3cd; color:#856404;">
+            【輸注液量建議】每 vial > 100ml，限水病患至少每 vial > 50ml。
+        </div>
+        <div class="notice-box" style="background:#fff3cd; color:#856404;">
+            【特殊族群】肝腎功能不全、使用 ECMO、HD、CRRT、CAPD 患者，不需調整劑量。
+        </div>
     </div>
 </div>
 
 <script>
     function calculate() {
         const w = parseFloat(document.getElementById('weight').value);
-        const cond = document.getElementById('condition').value;
-        if (!w || w < 40) { document.getElementById('results').style.display = 'none'; return; }
-
-        let load, maint;
-        const fmt = (v, k, m) => `<span class="vial-num">${v} vial</span> <span class="details">(${k}KU / ${m}mg)</span>`;
-
-        if (cond === 'mild') {
-            if (w < 50) { load = fmt(1.5, 800, 80); maint = fmt(1, 500, 50); }
-            else if (w < 60) { load = fmt(2, 1000, 100); maint = fmt(1.25, 625, 62.5); }
-            else if (w < 70) { load = fmt(2.5, 1200, 120); maint = fmt(1.5, 750, 75); }
-            else if (w < 80) { load = fmt(3, 1400, 140); maint = fmt(1.75, 875, 87.5); }
-            else { load = fmt(3.25, 1600, 160); maint = fmt(2, 1000, 100); }
-        } else {
-            if (w < 45) { load = fmt(2, 1000, 100); maint = fmt(1.2, 600, 60); }
-            else if (w < 50) { load = fmt(2.25, 1125, 112.5); maint = fmt(1.35, 675, 67.5); }
-            else if (w < 55) { load = fmt(2.5, 1250, 125); maint = fmt(1.5, 750, 75); }
-            else if (w < 60) { load = fmt(2.75, 1375, 137.5); maint = fmt(1.65, 825, 82.5); }
-            else if (w < 65) { load = fmt(3, 1500, 150); maint = fmt(1.8, 900, 90); }
-            else if (w < 70) { load = fmt(3.25, 1625, 162.5); maint = fmt(1.95, 975, 97.5); }
-            else if (w < 75) { load = fmt(3.5, 1750, 175); maint = fmt(2.1, 1050, 105); }
-            else if (w < 80) { load = fmt(3.75, 1875, 187.5); maint = fmt(2.25, 1125, 112.5); }
-            else { load = fmt(4, 2000, 200); maint = fmt(2.4, 1200, 120); }
-        }
+        const results = document.getElementById('results');
         
-        document.getElementById('res-loading').innerHTML = load + " <br><small>建議輸注時間 > 2小時</small>";
-        document.getElementById('res-maintenance').innerHTML = maint + " <span class=\"freq-label\">Q12H</span> <br><small>建議輸注時間 > 1小時</small>";
-        document.getElementById('results').style.display = 'block';
+        if (!w || w < 40) {
+            results.style.display = 'none';
+            return;
+        }
+
+        results.style.display = 'block';
+
+        // --- 方案 A 計算邏輯 (原輕症) ---
+        let al_v, al_ku, al_mg, am_v, am_ku, am_mg;
+        if (w < 50) {
+            al_v = 1.5; al_ku = 800; al_mg = 80; am_v = 1; am_ku = 500; am_mg = 50;
+        } else if (w < 60) {
+            al_v = 2; al_ku = 1000; al_mg = 100; am_v = 1.25; am_ku = 625; am_mg = 62.5;
+        } else if (w < 70) {
+            al_v = 2.5; al_ku = 1200; al_mg = 120; am_v = 1.5; am_ku = 750; am_mg = 75;
+        } else if (w < 80) {
+            al_v = 3; al_ku = 1400; al_mg = 140; am_v = 1.75; am_ku = 875; am_mg = 87.5;
+        } else {
+            al_v = 3.25; al_ku = 1600; al_mg = 160; am_v = 2; am_ku = 1000; am_mg = 100;
+        }
+
+        // --- 方案 B 計算邏輯 (原重症) ---
+        let bl_v, bl_ku, bl_mg, bm_v, bm_ku, bm_mg;
+        if (w < 45) {
+            bl_v = 2; bl_ku = 1000; bl_mg = 100; bm_v = 1.2; bm_ku = 600; bm_mg = 60;
+        } else if (w < 50) {
+            bl_v = 2.25; bl_ku = 1125; bl_mg = 112.5; bm_v = 1.35; bm_ku = 675; bm_mg = 67.5;
+        } else if (w < 55) {
+            bl_v = 2.5; bl_ku = 1250; bl_mg = 125; bm_v = 1.5; bm_ku = 750; bm_mg = 75;
+        } else if (w < 60) {
+            bl_v = 2.75; bl_ku = 1375; bl_mg = 137.5; bm_v = 1.65; bm_ku = 825; bm_mg = 82.5;
+        } else if (w < 65) {
+            bl_v = 3; bl_ku = 1500; bl_mg = 150; bm_v = 1.8; bm_ku = 900; bm_mg = 90;
+        } else if (w < 70) {
+            bl_v = 3.25; bl_ku = 1625; bl_mg = 162.5; bm_v = 1.95; bm_ku = 975; bm_mg = 97.5;
+        } else if (w < 75) {
+            bl_v = 3.5; bl_ku = 1750; bl_mg = 175; bm_v = 2.1; bm_ku = 1050; bm_mg = 105;
+        } else if (w < 80) {
+            bl_v = 3.75; bl_ku = 1875; bl_mg = 187.5; bm_v = 2.25; bm_ku = 1125; bm_mg = 112.5;
+        } else {
+            bl_v = 4; bl_ku = 2000; bl_mg = 200; bm_v = 2.4; bm_ku = 1200; bm_mg = 120;
+        }
+
+        // 渲染方案 A
+        document.getElementById('a-l-vial').innerText = al_v + " vial";
+        document.getElementById('a-l-detail').innerText = `(${al_ku}KU / ${al_mg}mg)`;
+        document.getElementById('a-m-vial').innerText = am_v + " vial";
+        document.getElementById('a-m-detail').innerText = `(${am_ku}KU / ${am_mg}mg)`;
+
+        // 渲染方案 B
+        document.getElementById('b-l-vial').innerText = bl_v + " vial";
+        document.getElementById('b-l-detail').innerText = `(${bl_ku}KU / ${bl_mg}mg)`;
+        document.getElementById('b-m-vial').innerText = bm_v + " vial";
+        document.getElementById('b-m-detail').innerText = `(${bm_ku}KU / ${bm_mg}mg)`;
     }
 </script>
+
 </body>
 </html>
